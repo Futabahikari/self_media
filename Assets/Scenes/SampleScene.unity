@@ -250,6 +250,10 @@ MonoBehaviour:
   playerSpeed: 6
   playerAccelerationTime: 0.2
   playerDecelerationTime: 0.2
+  playerStamina: 100
+  playerBounceBackCost: 3
+  playerBounceBackCD: 3
+  playerTough: 0
 --- !u!4 &1187436242
 Transform:
   m_ObjectHideFlags: 0

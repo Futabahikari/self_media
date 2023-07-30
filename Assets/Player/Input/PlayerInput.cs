@@ -9,6 +9,7 @@ public class PlayerInput : ScriptableObject,InputActions.IPlayerActions
 {
     public event UnityAction<Vector2> onMove = delegate { };
     public event UnityAction onStopMove = delegate { };
+    public event UnityAction onBounceBack = delegate { };
     InputActions inputActions;
 
     private void OnEnable()
@@ -46,6 +47,14 @@ public class PlayerInput : ScriptableObject,InputActions.IPlayerActions
                 onStopMove.Invoke();
         }
     }
+    public void OnBounceBack(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            if (onBounceBack != null)
+                onBounceBack.Invoke();
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -58,4 +67,6 @@ public class PlayerInput : ScriptableObject,InputActions.IPlayerActions
     {
         
     }
+
+    
 }
