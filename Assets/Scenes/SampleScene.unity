@@ -575,9 +575,12 @@ MonoBehaviour:
   playerSpeed: 6
   playerAccelerationTime: 0.2
   playerDecelerationTime: 0.2
-  playerStamina: 100
-  playerBounceBackCost: 3
-  playerBounceBackCD: 3
+  playerStamina: 20
+  playerMaxStamina: 20
+  playerStaminaRecoverSpeed: 3
+  playerBounceBackCost: 10
+  playerBounceBackCD: 2
+  playerIsInvicible: 0
 --- !u!4 &1187436242
 Transform:
   m_ObjectHideFlags: 0
@@ -684,6 +687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af561420e8ba584f9319f1d88681193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   Tough: 0
   MaxTough: 100
   NanBeng: {fileID: 716400121}
