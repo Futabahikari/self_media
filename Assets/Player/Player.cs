@@ -18,7 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("玩家耐力值")] private float playerStamina;
     [SerializeField, Tooltip("玩家弹反消耗")] private float playerBounceBackCost;
     [SerializeField, Tooltip("玩家弹反CD")] private float playerBounceBackCD;
-    [SerializeField, Tooltip("玩家难绷值")] private float playerTough;
+    //[SerializeField, Tooltip("玩家难绷值")] private float playerTough = 0;
+    //[SerializeField, Tooltip("最大难绷值")] private float playerMaxTough = 100f;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(playerIsBounceBack);
+        //Debug.Log(playerIsBounceBack);
     }
 
     void Move(Vector2 moveInput)
