@@ -7,19 +7,31 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     [Tooltip("玩家")] public Player player;
-    private SpriteRenderer sr;
-    private Color originColor;
-    [Tooltip("玩家难绷值")] public float Tough = 0;
-    [Tooltip("最大难绷值")] public float MaxTough = 100f;
+    //private SpriteRenderer sr;
+    //private Color originColor;
+    private AudioSource music;
+    public AudioClip clip;
+
     [Tooltip("无敌时间")] public float invicibleCD = 0.5f;
     //public Image NanBeng;
     public Image NaiLi;
+    [Header("难绷条")]
+    [Tooltip("玩家难绷值")] public float Tough = 0;
+    [Tooltip("最大难绷值")] public float MaxTough = 100f;
     public Text maxNanBeng;
     public Text curNanBeng;
+    [Header("难绷表情切换")]   
+    public Sprite NanBengUp;
+    public Sprite NanBengDown;
+    private SpriteRenderer sr;
+    private Sprite originS;
 
     private void Awake()
     {
         player = GetComponent<Player>();
+        music = gameObject.AddComponent<AudioSource>();
+        music.playOnAwake = false;
+
         player.onStaminaChanged += StaminaChanged;//耐力事件绑定
     }
 
@@ -27,7 +39,8 @@ public class PlayerHealth : MonoBehaviour
     {
         Amount();
         sr = GetComponent<SpriteRenderer>();
-        originColor = sr.color;
+        originS = sr.sprite;
+        //originColor = sr.color;
     }
     private void Update()
     {
@@ -36,28 +49,36 @@ public class PlayerHealth : MonoBehaviour
            
     }
      void Harm(float damage) { // 受伤
-        if(!player.playerIsInvicible)//无敌判定
+        if(!player.playerIsInvicible && damage != 0)//无敌判定
         {
             Tough += damage;
+
+            music.clip = clip;//播放音效
+            music.Play();
+
             Amount();
-            FlashColor();
+            Switchexpression(true);
 
             player.playerIsInvicible = true;
             StartCoroutine("InvicibleCD");
         }
     }
 
-    void FlashColor() { //受伤闪烁
-        sr.color = Color.red;
-        Invoke("ResetColor", invicibleCD);
+    void Switchexpression(bool ifUp) { //切换表情
+        if (ifUp)
+            sr.sprite = NanBengUp;
+        else
+            sr.sprite = NanBengDown;
+        Invoke("Reset", invicibleCD + 0.3f);
     }
-    void ResetColor() {
-        sr.color = originColor;
+    void Reset() {
+        sr.sprite = originS;
     }
     void recover(float gain) { // 恢复
         Tough -= gain;
         if (Tough < 0) Tough = 0;
         Amount();
+        Switchexpression(false);
     }
 
     IEnumerator InvicibleCD()

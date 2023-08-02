@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - EnemyArea
   - Item
+  - Finish2
   layers:
   - Default
   - TransparentFX
