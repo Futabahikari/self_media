@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("玩家耐力值恢复速度")] private float playerStaminaRecoverSpeed;
     [SerializeField, Tooltip("玩家弹反消耗")] private float playerBounceBackCost;
     [SerializeField, Tooltip("玩家弹反CD")] private float playerBounceBackCD;
+    [SerializeField, Tooltip("玩家耐力CDImage")] private Image staminaCDImage;
+    [SerializeField, Tooltip("玩家耐力CDText")] private Text staminaCDText;
 
     public bool playerIsInvicible = false;
     //[SerializeField, Tooltip("玩家难绷值")] private float playerTough = 0;
@@ -52,6 +55,7 @@ public class Player : MonoBehaviour
         rigidbody.gravityScale = 0f;
         input.EnablePlayerInputs();
         playerStamina = playerMaxStamina;
+        staminaCDText.text = playerBounceBackCD.ToString("0.0" + "s");
     }
 
     
@@ -115,10 +119,13 @@ public class Player : MonoBehaviour
         while (t < playerBounceBackCD)
         {
             t += Time.deltaTime;
+            staminaCDImage.fillAmount = t / playerBounceBackCD;
+            staminaCDText.text = (playerBounceBackCD - t).ToString("0.0" + "s");
             yield return null;
         }
         playerIsBounceBack = false;
         playerIsInvicible = false;
+        staminaCDText.text = playerBounceBackCD.ToString("0.0"+"s");
         StaminaRecover();
     }
 
