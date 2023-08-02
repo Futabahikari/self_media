@@ -226,4 +226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  damage: 10
+  toughDamage: 10
+  prefab: {fileID: 0}
+  ifArea: 0
+  ifSelfdestroy: 0
+  destroyTime: 3

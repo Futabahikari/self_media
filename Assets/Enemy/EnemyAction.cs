@@ -5,9 +5,14 @@ using UnityEngine;
 public class EnemyAction : MonoBehaviour
 {
     public float speed; 
-    public float damage;
+    public float toughDamage;
+    [Tooltip("需要实例化的")] public GameObject prefab;
+    [Tooltip("个体还是区域")] public bool ifArea = false;
 
-    public GameObject prefab;
+    [Header("销毁")]
+    [Tooltip("是否自动销毁")] public bool ifSelfdestroy;
+    [Tooltip("销毁时间")] public float destroyTime = 3f;
+    private float timer = 0;
 
     void Start()
     {
@@ -17,7 +22,13 @@ public class EnemyAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Run();
+        Run(); //移动
+        if (ifSelfdestroy) { //销毁
+            timer += Time.deltaTime;
+            if (timer >= destroyTime) {
+                Destroy(gameObject);
+            }
+        }
     }
 
     void Run()
@@ -28,10 +39,14 @@ public class EnemyAction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
-        {
-            Destroy(gameObject);
-        }
+            if (collision.tag == "Player" && ifArea == false) //个体才销毁
+            {
+                Destroy(gameObject);
+            }
+            if (collision.tag == "Finish")
+            { //出屏幕外销毁
+                Destroy(gameObject);
+            }
     }
 
     public void Event(int EnemyType) {
@@ -45,6 +60,23 @@ public class EnemyAction : MonoBehaviour
             pos2.x -= 1f;
             Instantiate(prefab, pos1, transform.rotation);
             Instantiate(prefab, pos2, transform.rotation);
+        }
+        if (EnemyType == 2) //玩家周围出现车
+        {
+            Vector3 pos1 = GameObject.Find("Player").transform.position;
+            Vector3 pos2 = GameObject.Find("Player").transform.position;
+            pos1.x += 1.8f;
+            pos2.x -= 1.8f;
+            Instantiate(prefab, pos1, transform.rotation);
+            Instantiate(prefab, pos2, transform.rotation);
+        }
+        if (EnemyType == 3) {  //外资区域
+            //ifSelfdestroy = true;
+
+            GameObject gameObject = GameObject.Find("AreaGenerate");
+            Vector3 pos = gameObject.transform.position;
+            pos.x += Random.Range(-2, 2);
+            Instantiate(prefab, pos, gameObject.transform.rotation);
         }
     }
 }
