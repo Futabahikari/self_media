@@ -96,9 +96,11 @@ public class PlayerHealth : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) //Åö×²µôÑª
     {
         if (collision.tag == "Enemy") {
-            Harm(collision.GetComponentInParent<EnemyAction>().toughDamage);
+            Harm(collision.GetComponentInParent<EnemyAction>().toughDamage);             
         }
-        if (collision.tag == "Item") {
+        else if (collision.tag == "SimpleEnemy")
+            Harm(collision.GetComponentInParent<SimpleEnemyAction>().toughDamage);
+        else if (collision.tag == "Item") {
             recover(collision.GetComponent<Item>().toughAdd);
         }
     }

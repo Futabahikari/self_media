@@ -8,6 +8,7 @@ TagManager:
   - EnemyArea
   - Item
   - Finish2
+  - SimpleEnemy
   layers:
   - Default
   - TransparentFX

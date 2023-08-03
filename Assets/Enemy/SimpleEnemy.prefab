@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 7899131872219029928}
   - component: {fileID: 5534477375287565159}
   - component: {fileID: 868810761018386313}
-  - component: {fileID: 5247887935837593443}
+  - component: {fileID: 7655124737055624544}
   m_Layer: 0
   m_Name: SimpleEnemy
-  m_TagString: Enemy
+  m_TagString: SimpleEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.4490285, y: 6.8344975}
   m_EdgeRadius: 0
---- !u!114 &5247887935837593443
+--- !u!114 &7655124737055624544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,12 +140,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8760809368251904654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2216405525bf1c04eab55f0a383471cf, type: 3}
+  m_Script: {fileID: 11500000, guid: a88b5c988487af648a07d96e732de73b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
+  moveVector2: {x: 0, y: 0}
   toughDamage: 10
-  prefab: {fileID: 0}
   ifArea: 0
   ifSelfdestroy: 0
   destroyTime: 3
