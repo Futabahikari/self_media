@@ -61,7 +61,7 @@ public class EnemyAction : MonoBehaviour
     public void Event(int EnemyType)
     {
         if (EnemyType == 0) //变大
-            transform.localScale *= 1.5f;
+            transform.localScale *= 2f;
         if (EnemyType == 1) //暑假集训（不能变道）
         {
             Vector3 pos1 = GameObject.Find("Player").transform.position;
