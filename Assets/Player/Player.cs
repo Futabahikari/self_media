@@ -28,12 +28,17 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("玩家耐力CDText")] private Text staminaCDText;
 
     public bool playerIsInvicible = false;
+
+    private Transform playerPosy; //（防止被挤下去）
+    private float recoverPosySpeed = 1f;
+
     //[SerializeField, Tooltip("玩家难绷值")] private float playerTough = 0;
     //[SerializeField, Tooltip("最大难绷值")] private float playerMaxTough = 100f;
     // Start is called before the first frame update
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        playerPosy = GameObject.Find("PlayerPosY").transform; 
     }
 
     private void OnEnable()
@@ -62,7 +67,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(playerIsBounceBack);
+        //检测玩家Y方向有偏移（防止被挤下去）
+        if (transform.position.y < playerPosy.position.y) {
+            float yPos = transform.position.y + recoverPosySpeed * Time.deltaTime;
+            transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
+        }
     }
 
     void Move(Vector2 moveInput)

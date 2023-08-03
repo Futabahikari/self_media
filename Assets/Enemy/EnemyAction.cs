@@ -16,9 +16,15 @@ public class EnemyAction : MonoBehaviour
 
     private AudioSource audio;
 
+    //变大相关，update里实现
+    private bool ifEvent1 = false;
+    private float maxScale;
+    private float scaleSpeed = 0.2f; // 调整变大速度
+
     void Start()
     {
         audio = GetComponent<AudioSource>();
+        maxScale = transform.localScale.x * 2;
     }
 
     // Update is called once per frame
@@ -32,6 +38,18 @@ public class EnemyAction : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+        }
+
+        //逐渐变大
+        if (ifEvent1 && transform.localScale.x < maxScale) {
+            Vector3 newScale = transform.localScale + new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
+
+            // 限制缩放值不超过最大值
+            newScale.x = Mathf.Min(newScale.x, maxScale);
+            newScale.y = Mathf.Min(newScale.y, maxScale);
+
+            // 更新物体缩放
+            transform.localScale = newScale;
         }
     }
 
@@ -61,7 +79,10 @@ public class EnemyAction : MonoBehaviour
     public void Event(int EnemyType)
     {
         if (EnemyType == 0) //变大
-            transform.localScale *= 2f;
+        {
+            ifEvent1 = true;
+        }
+            //transform.localScale *= 2f;
         if (EnemyType == 1) //暑假集训（不能变道）
         {
             Vector3 pos1 = GameObject.Find("Player").transform.position;
@@ -114,7 +135,7 @@ public class EnemyAction : MonoBehaviour
             GameObject gameObject = GameObject.Find("AreaGenerate");
             Vector3 pos = gameObject.transform.position;
 
-            pos.x += Random.Range(-2.5f, 2.5f);
+            pos.x += Random.Range(-2.3f, 2.3f);
             Instantiate(prefab, pos, gameObject.transform.rotation);
         }
     }
