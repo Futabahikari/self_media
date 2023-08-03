@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -20,11 +21,13 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("最大难绷值")] public float MaxTough = 100f;
     public Text maxNanBeng;
     public Text curNanBeng;
-    [Header("难绷表情切换")]   
+    [Header("难绷表情切换")]  
     public Sprite NanBengUp;
     public Sprite NanBengDown;
     private SpriteRenderer sr;
     private Sprite originS;
+
+    public Sprite BounceBackS;
 
     private void Awake()
     {
@@ -49,7 +52,7 @@ public class PlayerHealth : MonoBehaviour
            
     }
      void Harm(float damage) { // 受伤
-        if(!player.playerIsInvicible && damage != 0)//无敌判定
+        if(damage != 0)//无敌判定
         {
             Tough += damage;
 
@@ -59,7 +62,7 @@ public class PlayerHealth : MonoBehaviour
             Amount();
             Switchexpression(true);
 
-            player.playerIsInvicible = true;
+            player.SetPlayerInvicibleAtt(true);
             StartCoroutine("InvicibleCD");
         }
     }
@@ -70,6 +73,31 @@ public class PlayerHealth : MonoBehaviour
         else
             sr.sprite = NanBengDown;
         Invoke("Reset", invicibleCD + 0.3f);
+    }
+
+    void ChangeBounceSprite()
+    {
+        StartCoroutine(nameof(ChangeBounceSpriteCoroutine));
+    }
+
+    IEnumerator ChangeBounceSpriteCoroutine()
+    {
+        float t = 0f;
+        sr.sprite = BounceBackS;
+        Vector3 localScale = gameObject.transform.localScale;
+        localScale.x *= 1.2f;
+        localScale.y *= 1.2f;
+        gameObject.transform.localScale = localScale;
+        while (t < 0.5f)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+        sr.sprite = originS;
+        localScale.x /= 1.2f;
+        localScale.y /= 1.2f;
+        gameObject.transform.localScale = localScale;
+        StopCoroutine(nameof(ChangeBounceSpriteCoroutine));
     }
     void Reset() {
         sr.sprite = originS;
@@ -84,7 +112,7 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator InvicibleCD()
     {
         yield return new WaitForSeconds(invicibleCD);
-        player.playerIsInvicible = false;
+        player.SetPlayerInvicibleAtt(false);
     }
 
     void Amount() {
@@ -95,14 +123,25 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) //碰撞掉血
     {
-        if (collision.tag == "Enemy") {
-            Harm(collision.GetComponentInParent<EnemyAction>().toughDamage);             
+        if(player.GetPlayerInvicibleAtt())
+        {
+            player.PlayBounceBackPS();
+            ChangeBounceSprite();
         }
-        else if (collision.tag == "SimpleEnemy")
-            Harm(collision.GetComponentInParent<SimpleEnemyAction>().toughDamage);
-        else if (collision.tag == "Item") {
-            recover(collision.GetComponent<Item>().toughAdd);
+        else
+        {
+            if (collision.tag == "Enemy")
+            {
+                Harm(collision.GetComponentInParent<EnemyAction>().toughDamage);
+            }
+            else if (collision.tag == "SimpleEnemy")
+                Harm(collision.GetComponentInParent<SimpleEnemyAction>().toughDamage);
+            else if (collision.tag == "Item")
+            {
+                recover(collision.GetComponent<Item>().toughAdd);
+            }
         }
+        
     }
     private void OnTriggerStay2D(Collider2D collision)  //持续掉血
     {

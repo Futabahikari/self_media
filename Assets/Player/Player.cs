@@ -26,9 +26,10 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("玩家弹反CD")] private float playerBounceBackCD;
     [SerializeField, Tooltip("玩家耐力CDImage")] private Image staminaCDImage;
     [SerializeField, Tooltip("玩家耐力CDText")] private Text staminaCDText;
+    [SerializeField, Tooltip("玩家无敌时间")] private float playerInvicibleTime;
+    [SerializeField, Tooltip("玩家弹反特效")] private ParticleSystem playerBounceBackPS;
 
-    public bool playerIsInvicible = false;
-
+    private bool playerIsInvicible = false;
     private Transform playerPosy; //（防止被挤下去）
     private float recoverPosySpeed = 1f;
 
@@ -128,12 +129,15 @@ public class Player : MonoBehaviour
         while (t < playerBounceBackCD)
         {
             t += Time.deltaTime;
+            if (playerInvicibleTime<=playerBounceBackCD && t>=playerInvicibleTime)
+            {
+                playerIsInvicible = false;
+            }
             staminaCDImage.fillAmount = t / playerBounceBackCD;
             staminaCDText.text = (playerBounceBackCD - t).ToString("0.0" + "s");
             yield return null;
         }
         playerIsBounceBack = false;
-        playerIsInvicible = false;
         staminaCDText.text = playerBounceBackCD.ToString("0.0"+"s");
         StaminaRecover();
     }
@@ -151,5 +155,20 @@ public class Player : MonoBehaviour
             onStaminaChanged.Invoke(playerStamina,playerMaxStamina);
             yield return null;
         }
+    }
+
+    public bool GetPlayerInvicibleAtt()
+    {
+        return playerIsInvicible;
+    }
+
+    public void SetPlayerInvicibleAtt(bool TF)
+    {
+        playerIsInvicible = TF;
+    }
+
+    public void PlayBounceBackPS()
+    {
+        playerBounceBackPS.Play();
     }
 }

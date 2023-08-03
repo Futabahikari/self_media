@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class EnemyAction : MonoBehaviour
 {
+    private bool EnemyIsBounceBacked = false;
+    private Sprite originS;
+    private SpriteRenderer originSr;
+
+    public Sprite burstSprite;
+    public float bounceBackSpeed;
+
     public float speed;
     public float toughDamage;
     [Tooltip("需要实例化的")] public GameObject prefab;
@@ -24,32 +32,54 @@ public class EnemyAction : MonoBehaviour
     void Start()
     {
         audio = GetComponent<AudioSource>();
+        originSr = GetComponent<SpriteRenderer>();
+        originS = originSr.sprite;
         maxScale = transform.localScale.x * 2;
+    }
+
+    private void Awake()
+    {
+        
+    }
+
+    private void OnEnable()
+    {
+        
+        
+    }
+
+    private void OnDisable()
+    {
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        Run(); //移动
-        if (ifSelfdestroy)
-        { //销毁
-            timer += Time.deltaTime;
-            if (timer >= destroyTime)
-            {
-                Destroy(gameObject);
+        if(!EnemyIsBounceBacked)
+        {
+            Run(); //移动
+            if (ifSelfdestroy)
+            { //销毁
+                timer += Time.deltaTime;
+                if (timer >= destroyTime)
+                {
+                    Destroy(gameObject);
+                }
             }
-        }
 
-        //逐渐变大
-        if (ifEvent1 && transform.localScale.x < maxScale) {
-            Vector3 newScale = transform.localScale + new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
+            //逐渐变大
+            if (ifEvent1 && transform.localScale.x < maxScale)
+            {
+                Vector3 newScale = transform.localScale + new Vector3(scaleSpeed, scaleSpeed, 0) * Time.deltaTime;
 
-            // 限制缩放值不超过最大值
-            newScale.x = Mathf.Min(newScale.x, maxScale);
-            newScale.y = Mathf.Min(newScale.y, maxScale);
+                // 限制缩放值不超过最大值
+                newScale.x = Mathf.Min(newScale.x, maxScale);
+                newScale.y = Mathf.Min(newScale.y, maxScale);
 
-            // 更新物体缩放
-            transform.localScale = newScale;
+                // 更新物体缩放
+                transform.localScale = newScale;
+            }
         }
     }
 
@@ -64,7 +94,15 @@ public class EnemyAction : MonoBehaviour
     {
         if (collision.tag == "Player" && ifArea == false) //个体才销毁
         {
-            Destroy(gameObject);
+            if(collision.gameObject.GetComponent<Player>().GetPlayerInvicibleAtt())
+            {
+                PlayerBounceBackSucceed();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
         }
         if (collision.tag == "Finish" && ifArea == false) //出屏幕外销毁(个体)
         { 
@@ -139,4 +177,33 @@ public class EnemyAction : MonoBehaviour
             Instantiate(prefab, pos, gameObject.transform.rotation);
         }
     }
+
+    public void PlayerBounceBackSucceed()
+    {
+        StartCoroutine(nameof(EnemyIsBounceBackCoroutine));
+    }
+
+    public void ChangeBounceBackSprite(Sprite S)
+    {
+        originSr.sprite = S;
+    }
+
+    IEnumerator EnemyIsBounceBackCoroutine()
+    {
+        EnemyIsBounceBacked = true;
+        float t = 0f;
+        float bounceBackDirection = Random.Range(-1f, 1f);
+        ChangeBounceBackSprite(burstSprite);
+        while(t < 0.5f)
+        {
+            t += Time.deltaTime;
+            float yPos = transform.position.y + speed * Time.deltaTime * bounceBackSpeed;
+            float xPos = transform.position.x + speed * Time.deltaTime * bounceBackDirection;
+            transform.position = new Vector3(xPos, yPos, transform.position.z);
+            yield return null;
+        }
+        EnemyIsBounceBacked = false;
+        Destroy(gameObject);
+    }
+
 }
