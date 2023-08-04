@@ -22,7 +22,7 @@ public class EnemyEvent : MonoBehaviour
     {
         if (collision.tag == "Player" && !collision.gameObject.GetComponent<Player>().GetPlayerInvicibleAtt())
         {
-            Destroy(transform.GetComponent<CircleCollider2D>());
+            Destroy(transform.GetComponent<Collider2D>());
             gameObject.GetComponentInParent<EnemyAction>().Event(EnemyType);
         }
     }

@@ -35,10 +35,10 @@ public class EnemyGenerate : MonoBehaviour
                 int length = prefabs.Length;
 
                 int i = Random.Range(0, length);
-                if (i == length - 1 && playerHealth.Tough >= 50) //如果是道具并且血多，再随机一次
+                if (i > 4) //如果是道具，再随机一次
                 {
-                    int j = Random.Range(0, 2);
-                    if (j == 0) i = Random.Range(0, length - 1); //随机成敌人
+                    int j = Random.Range(0, 4);
+                    if (j != 0) i = Random.Range(0, 4); //随机成敌人
                 }
 
                 Vector3 pos = generatePos.position;
