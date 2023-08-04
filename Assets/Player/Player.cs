@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     [SerializeField, Tooltip("玩家耐力CDText")] private Text staminaCDText;
     [SerializeField, Tooltip("玩家无敌时间")] private float playerInvicibleTime;
     [SerializeField, Tooltip("玩家弹反特效")] private ParticleSystem playerBounceBackPS;
+    [SerializeField, Tooltip("玩家被夹特效")] private ParticleSystem playerCantMovePS;
 
     private bool playerIsInvicible = false;
     private Transform playerPosy; //（防止被挤下去）
@@ -171,4 +172,9 @@ public class Player : MonoBehaviour
     {
         playerBounceBackPS.Play();
     }
+
+    public void PlayCantMovePS() {
+        playerCantMovePS.Play();
+    }
+
 }

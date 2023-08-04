@@ -120,7 +120,7 @@ public class EnemyAction : MonoBehaviour
         {
             ifEvent1 = true;
         }
-            //transform.localScale *= 2f;
+        //transform.localScale *= 2f;
         if (EnemyType == 1) //暑假集训（不能变道）
         {
             Vector3 pos1 = GameObject.Find("Player").transform.position;
@@ -129,6 +129,8 @@ public class EnemyAction : MonoBehaviour
             pos2.x += 0.8f;
             Instantiate(prefab, pos1, transform.rotation);
             Instantiate(prefab, pos2, transform.rotation);
+            //播放特效
+            GameObject.Find("Player").GetComponent<Player>().PlayCantMovePS();
         }
         if (EnemyType == 2) //周围出现六辆车
         {
