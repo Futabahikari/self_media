@@ -48,13 +48,16 @@ public class PlayerHealth : MonoBehaviour
     private void Update()
     {
         //销毁
-        if (Tough >= MaxTough) { } ;
+        if (Tough >= MaxTough) {
+            Destroy(gameObject);
+        } 
            
     }
      void Harm(float damage) { // 受伤
         if(damage != 0)//无敌判定
         {
             Tough += damage;
+            if (Tough > MaxTough) Tough = MaxTough;
 
             music.clip = clip;//播放音效
             music.Play();
