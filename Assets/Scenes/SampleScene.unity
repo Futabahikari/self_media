@@ -2273,6 +2273,7 @@ MonoBehaviour:
   NanBengUp: {fileID: 21300000, guid: 0fb59c45f994125459431e5663e10ea5, type: 3}
   NanBengDown: {fileID: 21300000, guid: 205bfde8e476c9746b4f851ef02617ef, type: 3}
   BounceBackS: {fileID: 21300000, guid: 6b8e2d6199225304aa968367324fe1b8, type: 3}
+  recoverVFX: {fileID: 9028010256090997819, guid: 5a04b20517b259349ac7e9dc243ca465, type: 3}
 --- !u!61 &1187436246
 BoxCollider2D:
   m_ObjectHideFlags: 0

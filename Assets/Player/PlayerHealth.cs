@@ -29,6 +29,8 @@ public class PlayerHealth : MonoBehaviour
 
     public Sprite BounceBackS;
 
+    public GameObject recoverVFX;
+
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -110,6 +112,7 @@ public class PlayerHealth : MonoBehaviour
         if (Tough < 0) Tough = 0;
         Amount();
         Switchexpression(false);
+        Instantiate(recoverVFX, player.transform.position, player.transform.rotation);
     }
 
     IEnumerator InvicibleCD()
@@ -126,16 +129,17 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) //Åö×²µôÑª
     {
-        if(player.GetPlayerInvicibleAtt())
-        {
-            player.PlayBounceBackPS();
-            ChangeBounceSprite();
-        }
-        else
         {
             if (collision.tag == "Enemy")
             {
-                Harm(collision.GetComponentInParent<EnemyAction>().toughDamage);
+
+                if (player.GetPlayerInvicibleAtt())
+                {
+                    player.PlayBounceBackPS();
+                    ChangeBounceSprite();
+                }
+                else Harm(collision.GetComponentInParent<EnemyAction>().toughDamage);
+
             }
             else if (collision.tag == "SimpleEnemy")
                 Harm(collision.GetComponentInParent<SimpleEnemyAction>().toughDamage);
