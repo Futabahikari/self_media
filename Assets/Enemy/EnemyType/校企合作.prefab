@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 2154170598350468182}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7983796074786419726
 SpriteRenderer:
@@ -144,6 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2216405525bf1c04eab55f0a383471cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  burstSprite: {fileID: 21300000, guid: efe385aaccbfb264e8f89b8ba6501e0b, type: 3}
+  bounceBackSpeed: 0
   speed: 5
   toughDamage: 10
   prefab: {fileID: 7200380510017210208, guid: 7db04e057fd719d45bdbf0b9a44e15ee, type: 3}
@@ -215,9 +217,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1910291, y: 0}
+  m_Offset: {x: 0.09372551, y: 0}
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 3.8105862
 --- !u!114 &6452664743950477964
 MonoBehaviour:
   m_ObjectHideFlags: 0

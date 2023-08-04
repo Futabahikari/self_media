@@ -2149,8 +2149,8 @@ MonoBehaviour:
   playerStamina: 20
   playerMaxStamina: 20
   playerStaminaRecoverSpeed: 3
-  playerBounceBackCost: 10
-  playerBounceBackCD: 2
+  playerBounceBackCost: 2
+  playerBounceBackCD: 0.5
   staminaCDImage: {fileID: 14628277}
   staminaCDText: {fileID: 581970100}
   playerInvicibleTime: 1
@@ -3499,7 +3499,10 @@ MonoBehaviour:
   - {fileID: 389188310853622358, guid: 821c4b326bc9b52499fe34c51fc340b3, type: 3}
   - {fileID: 6172215843694398263, guid: 8b53b757df2857443a7b8da8a94e3ca7, type: 3}
   - {fileID: 7961296114440804051, guid: 01586baabc0049a41abd3e3737b4bd75, type: 3}
-  - {fileID: 7164963263930662684, guid: b7b9caa76bcd2544ea5e9d6eada0c5dc, type: 3}
+  - {fileID: 6658884967433373605, guid: bf3153b8d2bf0c44c8407d06dcc57196, type: 3}
+  - {fileID: 7769013142775812653, guid: ee2774efc01204040bb07784a9177b22, type: 3}
+  - {fileID: 325307550744091264, guid: 6ff71297af4b359468c8810889cf55a3, type: 3}
+  - {fileID: 6658884967433373605, guid: 96b0c0b6fd79eb34182d3e1f7267dd1b, type: 3}
   num: 0
   maxNum: 6
   generateTime1: 3
