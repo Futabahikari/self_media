@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     public event UnityAction<float,float> onStaminaChanged;
+    public event UnityAction onBounceBacking;
 
     new Rigidbody2D rigidbody;
     private Vector2 moveVector2 = Vector2.zero;
@@ -127,10 +128,15 @@ public class Player : MonoBehaviour
         Debug.Log(playerStamina);
         playerIsBounceBack = true;
         playerIsInvicible = true;
+        onBounceBacking.Invoke();
+        if (playerInvicibleTime > playerBounceBackCD)
+        {
+            playerInvicibleTime = playerBounceBackCD;
+        }
         while (t < playerBounceBackCD)
         {
             t += Time.deltaTime;
-            if (playerInvicibleTime<=playerBounceBackCD && t>=playerInvicibleTime)
+            if (t>=playerInvicibleTime)
             {
                 playerIsInvicible = false;
             }

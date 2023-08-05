@@ -12,6 +12,8 @@ public class PlayerHealth : MonoBehaviour
     //private Color originColor;
     private AudioSource music;
     public AudioClip clip;
+    public AudioClip bounckBackClip;
+    public AudioClip bounckBackSucceedClip;
 
     [Tooltip("无敌时间")] public float invicibleCD = 0.5f;
     //public Image NanBeng;
@@ -28,6 +30,7 @@ public class PlayerHealth : MonoBehaviour
     private Sprite originS;
 
     public Sprite BounceBackS;
+    private bool BounceBackIsSucceed = false;
 
     public GameObject recoverVFX;
 
@@ -38,6 +41,7 @@ public class PlayerHealth : MonoBehaviour
         music.playOnAwake = false;
 
         player.onStaminaChanged += StaminaChanged;//耐力事件绑定
+        player.onBounceBacking += BounceBacking;
     }
 
     private void Start()
@@ -135,8 +139,10 @@ public class PlayerHealth : MonoBehaviour
 
                 if (player.GetPlayerInvicibleAtt())
                 {
+                    //StartCoroutine(nameof(BounceBackIsSucceedCoroutine));
                     player.PlayBounceBackPS();
-                    ChangeBounceSprite();
+                    music.clip = bounckBackSucceedClip;//播放音效
+                    music.Play();
                 }
                 else Harm(collision.GetComponentInParent<EnemyAction>().toughDamage);
 
@@ -168,5 +174,23 @@ public class PlayerHealth : MonoBehaviour
         NaiLi.fillAmount = playerStamina / playerMaxStamina;
     }
 
+
+    public void BounceBacking()
+    {
+        music.clip = bounckBackClip;//播放音效
+        music.Play();
+        //if(!BounceBackIsSucceed)
+        //{
+            ChangeBounceSprite();
+        //}    
+    }
+
+    /*IEnumerator BounceBackIsSucceedCoroutine()
+    {
+        BounceBackIsSucceed = true;
+        yield return new WaitForSeconds(0.2f);
+        BounceBackIsSucceed = false;
+        StopCoroutine(nameof(BounceBackIsSucceedCoroutine));
+    }*/
 
 }
