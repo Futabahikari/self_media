@@ -143,9 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a88b5c988487af648a07d96e732de73b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 5
   moveVector2: {x: 0, y: 0}
   toughDamage: 10
   ifArea: 0
   ifSelfdestroy: 0
-  destroyTime: 3
+  destroyTime: 5

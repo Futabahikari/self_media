@@ -27,14 +27,14 @@ public class EnemyAction : MonoBehaviour
     //变大相关，update里实现
     private bool ifEvent1 = false;
     private float maxScale;
-    private float scaleSpeed = 0.2f; // 调整变大速度
+    private float scaleSpeed = 1f; // 调整变大速度
 
     void Start()
     {
         audio = GetComponent<AudioSource>();
         originSr = GetComponent<SpriteRenderer>();
         originS = originSr.sprite;
-        maxScale = transform.localScale.x * 2;
+        maxScale = transform.localScale.x * 3;
     }
 
     private void Awake()
