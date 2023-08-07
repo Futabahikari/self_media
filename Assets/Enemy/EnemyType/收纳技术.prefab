@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   burstSprite: {fileID: 21300000, guid: efe385aaccbfb264e8f89b8ba6501e0b, type: 3}
   bounceBackSpeed: 3
-  speed: 10
+  speed: 8
   toughDamage: 10
   prefab: {fileID: 8760809368251904654, guid: 7c0639f04ddfeec42a5cb83468b35d0e, type: 3}
   ifArea: 0
