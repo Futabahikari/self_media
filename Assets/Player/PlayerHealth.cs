@@ -23,11 +23,14 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("最大难绷值")] public float MaxTough = 100f;
     public Text maxNanBeng;
     public Text curNanBeng;
+    public Text aliveTime;
     [Header("难绷表情切换")]  
     public Sprite NanBengUp;
     public Sprite NanBengDown;
     private SpriteRenderer sr;
     private Sprite originS;
+    private bool playerIsAlive = true;
+    private float playerAliveTime = 0f;
 
     public Sprite BounceBackS;
     private bool BounceBackIsSucceed = false;
@@ -53,6 +56,11 @@ public class PlayerHealth : MonoBehaviour
     }
     private void Update()
     {
+        if(playerIsAlive)
+        {
+            playerAliveTime += Time.deltaTime;
+            aliveTime.text = playerAliveTime.ToString("0.0");
+        }
         //销毁
         if (Tough >= MaxTough) {
             Destroy(gameObject);
